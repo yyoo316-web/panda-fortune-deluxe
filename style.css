@@ -114,4 +114,25 @@ body {
   min-height: 24px;
   font-size: 16px;
   color: #ffd76a;
+  transition: font-size 0.2s ease;
+}
+
+.status-msg.win-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff176;
+  text-shadow: 0 0 10px rgba(255, 241, 118, 0.9);
+}
+
+.strip img.win-glow {
+  position: relative;
+  z-index: 2;
+  border-radius: 8px;
+  box-shadow: 0 0 0 3px #fff176, 0 0 22px 8px rgba(255, 215, 106, 0.85);
+  animation: winPulse 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes winPulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
 }
