@@ -1,17 +1,17 @@
-// Panda Fortune Deluxe — reel spin engine (v1)
+// Panda Fortune Deluxe — reel spin engine (v1.1)
 // Basic 5-reel x 3-row slot with weighted random stops and a single center payline check.
 
 const SYMBOLS = [
-  { id: "giant-panda",   file: "assets/symbols/01-giant-panda.png",   name: "자이언트 판다",   weight: 3  },
-  { id: "red-panda",     file: "assets/symbols/02-red-panda.png",     name: "레드 판다",       weight: 5  },
-  { id: "red-lantern",   file: "assets/symbols/03-red-lantern.png",   name: "홍등",            weight: 8  },
-  { id: "golden-teapot", file: "assets/symbols/04-golden-teapot.png", name: "황금 찻주전자",   weight: 8  },
-  { id: "wild-bamboo",   file: "assets/symbols/05-wild-bamboo.png",   name: "대나무 (Wild)",   weight: 6  },
-  { id: "scatter-medal", file: "assets/symbols/06-scatter-medal.png", name: "스캐터 메달",     weight: 2  },
-  { id: "letter-a",      file: "assets/symbols/07-letter-a.png",      name: "A",               weight: 14 },
-  { id: "letter-k",      file: "assets/symbols/08-letter-k.png",      name: "K",               weight: 14 },
-  { id: "letter-q",      file: "assets/symbols/09-letter-q.png",      name: "Q",               weight: 16 },
-  { id: "letter-j",      file: "assets/symbols/10-letter-j.png",      name: "J",               weight: 16 },
+  { id: "giant-panda",   file: "assets/symbols/01-giant-panda.png",   name: "Giant Panda",  weight: 3  },
+  { id: "red-panda",     file: "assets/symbols/02-red-panda.png",     name: "Red Panda",    weight: 5  },
+  { id: "red-lantern",   file: "assets/symbols/03-red-lantern.png",   name: "Red Lantern",  weight: 8  },
+  { id: "golden-teapot", file: "assets/symbols/04-golden-teapot.png", name: "Golden Teapot",weight: 8  },
+  { id: "wild-bamboo",   file: "assets/symbols/05-wild-bamboo.png",   name: "Bamboo (Wild)",weight: 6  },
+  { id: "scatter-medal", file: "assets/symbols/06-scatter-medal.png", name: "Scatter Medal",weight: 2  },
+  { id: "letter-a",      file: "assets/symbols/07-letter-a.png",      name: "A",             weight: 14 },
+  { id: "letter-k",      file: "assets/symbols/08-letter-k.png",      name: "K",             weight: 14 },
+  { id: "letter-q",      file: "assets/symbols/09-letter-q.png",      name: "Q",             weight: 16 },
+  { id: "letter-j",      file: "assets/symbols/10-letter-j.png",      name: "J",             weight: 16 },
 ];
 
 const REEL_COUNT = 5;
@@ -99,6 +99,18 @@ function checkWin(centerRow) {
   return matchCount >= 3 ? { symbol: centerRow[0], count: matchCount } : null;
 }
 
+function clearWinHighlights() {
+  document.querySelectorAll(".win-glow").forEach((el) => el.classList.remove("win-glow"));
+}
+
+function highlightWin(reelEls, count) {
+  for (let i = 0; i < count; i++) {
+    const strip = reelEls[i].querySelector(".strip");
+    const centerImg = strip.children[strip.children.length - 2]; // top, center, bottom order
+    centerImg.classList.add("win-glow");
+  }
+}
+
 async function spin() {
   if (spinning) return;
   spinning = true;
@@ -107,6 +119,8 @@ async function spin() {
   const statusMsg = document.getElementById("statusMsg");
   spinBtn.disabled = true;
   statusMsg.textContent = "";
+  statusMsg.classList.remove("win-text");
+  clearWinHighlights();
 
   const reelEls = document.querySelectorAll(".reel");
   const results = []; // [reelIndex] -> [top, center, bottom]
@@ -123,9 +137,11 @@ async function spin() {
   const win = checkWin(centerRow);
 
   if (win) {
-    statusMsg.textContent = `${win.symbol.name} ${win.count}연속 매치! 🎉`;
+    statusMsg.textContent = `${win.symbol.name} x${win.count} — WIN! 🎉`;
+    statusMsg.classList.add("win-text");
+    highlightWin(reelEls, win.count);
   } else {
-    statusMsg.textContent = "다시 스핀해보세요";
+    statusMsg.textContent = "No match — spin again!";
   }
 
   spinBtn.disabled = false;
