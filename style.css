@@ -286,3 +286,39 @@ body {
   color: #c9a24b;
   line-height: 1.5;
 }
+
+/* ===== v3: shake, autospin, mute ===== */
+
+@keyframes reelShake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  15% { transform: translate(-3px, 2px) rotate(-0.4deg); }
+  30% { transform: translate(3px, -2px) rotate(0.4deg); }
+  45% { transform: translate(-2px, -2px) rotate(-0.3deg); }
+  60% { transform: translate(2px, 2px) rotate(0.3deg); }
+  75% { transform: translate(-1px, 1px) rotate(-0.15deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.reels-frame.shake {
+  animation: reelShake 0.55s ease-in-out;
+}
+
+.auto-btn.active {
+  background: linear-gradient(180deg, #ff8a8a 0%, #d43a3a 100%);
+  border-color: #ff5b5b;
+  color: #fff;
+}
+
+.mute-btn {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #ffcf5c;
+  background: rgba(12, 28, 20, 0.8);
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 60;
+}
