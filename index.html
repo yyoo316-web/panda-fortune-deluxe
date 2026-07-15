@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Panda Fortune Deluxe</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="game-wrap">
+    <h1 class="logo">Panda Fortune <span>Deluxe</span></h1>
+
+    <div class="reels-frame">
+      <div class="reels" id="reels">
+        <div class="reel" data-reel="0"><div class="strip"></div></div>
+        <div class="reel" data-reel="1"><div class="strip"></div></div>
+        <div class="reel" data-reel="2"><div class="strip"></div></div>
+        <div class="reel" data-reel="3"><div class="strip"></div></div>
+        <div class="reel" data-reel="4"><div class="strip"></div></div>
+      </div>
+      <div class="payline"></div>
+    </div>
+
+    <div class="controls">
+      <button id="spinBtn" class="spin-btn">SPIN</button>
+    </div>
+
+    <div id="statusMsg" class="status-msg"></div>
+  </div>
+
+  <script src="reel.js"></script>
+</body>
+</html>
