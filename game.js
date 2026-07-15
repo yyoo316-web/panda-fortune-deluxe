@@ -47,6 +47,7 @@ let state = {
   balance: STARTING_BALANCE,
   betIndex: 3, // start at 10
   spinning: false,
+  autospin: false,
   lastGrid: null, // [reel][row] symbol
 };
 
@@ -112,7 +113,7 @@ function spinReel(reelEl, delay, finalSymbols) {
       strip.offsetHeight;
       strip.style.transition = `transform ${SPIN_DURATION}ms cubic-bezier(0.17, 0.67, 0.32, 1.02)`;
       strip.style.transform = `translateY(-${travelDistance}px)`;
-      setTimeout(resolve, SPIN_DURATION);
+      setTimeout(() => { SoundFX.reelStop(reelEl.dataset.reel | 0); resolve(); }, SPIN_DURATION);
     }, delay);
   });
 }
@@ -215,6 +216,12 @@ async function spin() {
   clearWinHighlights();
   document.getElementById("spinBtn").disabled = true;
 
+  SoundFX.spinStart();
+  const frame = document.querySelector(".reels-frame");
+  frame.classList.remove("shake");
+  frame.offsetHeight;
+  frame.classList.add("shake");
+
   const reelEls = document.querySelectorAll(".reel");
   const grid = []; // [reel][row]
 
@@ -243,13 +250,38 @@ async function spin() {
     }
     setMessage(`WIN ${fmt(result.totalWin)}! (${detail})`, true);
     highlightCells(result.winningCells);
+    SoundFX.win(result.totalWin >= betAmount * 10);
   } else {
     setMessage("No win — spin again!", false);
+    SoundFX.lose();
   }
 
   updateHud(result.totalWin);
   document.getElementById("spinBtn").disabled = false;
   state.spinning = false;
+
+  if (state.autospin) {
+    if (state.balance >= bet()) {
+      setTimeout(() => { if (state.autospin) spin(); }, result.totalWin > 0 ? 1400 : 700);
+    } else {
+      setAutospin(false);
+      setMessage("Autospin stopped — balance too low.", false);
+    }
+  }
+}
+
+function setAutospin(on) {
+  state.autospin = on;
+  const btn = document.getElementById("autoBtn");
+  btn.classList.toggle("active", on);
+  btn.textContent = on ? "STOP" : "AUTO";
+}
+
+function toggleAutospin() {
+  SoundFX.click();
+  const next = !state.autospin;
+  setAutospin(next);
+  if (next && !state.spinning) spin();
 }
 
 function buildPaytable() {
@@ -278,9 +310,14 @@ document.addEventListener("DOMContentLoaded", () => {
   setupReels();
   buildPaytable();
   updateHud(0);
-  document.getElementById("spinBtn").addEventListener("click", spin);
-  document.getElementById("betUp").addEventListener("click", () => adjustBet(1));
-  document.getElementById("betDown").addEventListener("click", () => adjustBet(-1));
-  document.getElementById("paytableBtn").addEventListener("click", togglePaytable);
+  document.getElementById("spinBtn").addEventListener("click", () => { SoundFX.click(); spin(); });
+  document.getElementById("autoBtn").addEventListener("click", toggleAutospin);
+  document.getElementById("betUp").addEventListener("click", () => { SoundFX.click(); adjustBet(1); });
+  document.getElementById("betDown").addEventListener("click", () => { SoundFX.click(); adjustBet(-1); });
+  document.getElementById("paytableBtn").addEventListener("click", () => { SoundFX.click(); togglePaytable(); });
   document.getElementById("paytableClose").addEventListener("click", togglePaytable);
+  document.getElementById("muteBtn").addEventListener("click", (e) => {
+    const m = SoundFX.toggleMute();
+    e.target.textContent = m ? "🔇" : "🔊";
+  });
 });
