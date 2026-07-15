@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +9,25 @@
 <body>
   <div class="game-wrap">
     <h1 class="logo">Panda Fortune <span>Deluxe</span></h1>
+
+    <div class="hud">
+      <div class="hud-box">
+        <div class="hud-label">BALANCE</div>
+        <div class="hud-value" id="balanceVal">1,000</div>
+      </div>
+      <div class="hud-box hud-win">
+        <div class="hud-label">WIN</div>
+        <div class="hud-value" id="winVal">0</div>
+      </div>
+      <div class="hud-box">
+        <div class="hud-label">BET</div>
+        <div class="bet-row">
+          <button id="betDown" class="bet-btn">−</button>
+          <div class="hud-value" id="betVal">10</div>
+          <button id="betUp" class="bet-btn">+</button>
+        </div>
+      </div>
+    </div>
 
     <div class="reels-frame">
       <div class="reels" id="reels">
@@ -22,12 +41,30 @@
     </div>
 
     <div class="controls">
+      <button id="paytableBtn" class="side-btn">PAYTABLE</button>
       <button id="spinBtn" class="spin-btn">SPIN</button>
+      <div class="side-spacer"></div>
     </div>
 
     <div id="statusMsg" class="status-msg"></div>
+
+    <div id="paytablePanel" class="paytable-panel">
+      <div class="paytable-inner">
+        <div class="paytable-header">
+          <h2>Paytable</h2>
+          <button id="paytableClose" class="close-btn">✕</button>
+        </div>
+        <table class="paytable">
+          <thead>
+            <tr><th>Symbol</th><th>x3</th><th>x4</th><th>x5</th><th></th></tr>
+          </thead>
+          <tbody id="paytableBody"></tbody>
+        </table>
+        <p class="paytable-note">10 paylines. Bamboo WILD substitutes for all symbols except Scatter. 3+ Scatters pay anywhere.</p>
+      </div>
+    </div>
   </div>
 
-  <script src="reel.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>
