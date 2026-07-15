@@ -1,0 +1,117 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 20%, #1c3d2e 0%, #0a1810 70%, #050c08 100%);
+  font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+  color: #fff8e7;
+}
+
+.game-wrap {
+  width: min(94vw, 640px);
+  padding: 20px;
+  text-align: center;
+}
+
+.logo {
+  margin: 0 0 16px;
+  font-size: clamp(24px, 6vw, 40px);
+  letter-spacing: 1px;
+  color: #ffd76a;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+.logo span { color: #ff5b5b; }
+
+.reels-frame {
+  position: relative;
+  background: linear-gradient(180deg, #7a1f1f 0%, #4a0f0f 100%);
+  border: 6px solid #ffcf5c;
+  border-radius: 18px;
+  padding: 10px;
+  box-shadow: 0 0 0 4px #2a0a0a inset, 0 12px 30px rgba(0,0,0,0.5);
+}
+
+.reels {
+  display: flex;
+  gap: 6px;
+  background: #10241a;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.reel {
+  flex: 1;
+  height: 300px; /* 3 rows x 100px */
+  overflow: hidden;
+  position: relative;
+  background: #0c1c14;
+  border-radius: 6px;
+}
+
+.strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  will-change: transform;
+}
+
+.strip img {
+  display: block;
+  width: 100%;
+  height: 100px;
+  object-fit: contain;
+  padding: 6px;
+  background: #14281d;
+}
+
+.payline {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 50%;
+  height: 100px;
+  transform: translateY(-50%);
+  border: 2px dashed rgba(255, 215, 106, 0.6);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.controls {
+  margin-top: 22px;
+}
+
+.spin-btn {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 16px 52px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(180deg, #ffe08a 0%, #ffb92e 60%, #e88a00 100%);
+  color: #4a1f00;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #a85f00, 0 10px 18px rgba(0,0,0,0.5);
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+.spin-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #a85f00, 0 4px 10px rgba(0,0,0,0.5);
+}
+.spin-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 6px 0 #a85f00, 0 10px 18px rgba(0,0,0,0.5);
+}
+
+.status-msg {
+  margin-top: 14px;
+  min-height: 24px;
+  font-size: 16px;
+  color: #ffd76a;
+}
