@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Panda Fortune Deluxe</title>
+<meta name="theme-color" content="#7a1f1f" />
+<meta name="description" content="Panda Fortune Deluxe — a free-to-play slot game." />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="assets/icons/icon-192.png" />
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -38,6 +43,7 @@
         <div class="reel" data-reel="4"><div class="strip"></div></div>
       </div>
       <div class="payline"></div>
+      <svg id="paylineOverlay" class="payline-overlay"></svg>
     </div>
 
     <div class="controls">
@@ -46,7 +52,11 @@
       <button id="autoBtn" class="side-btn auto-btn">AUTO</button>
     </div>
 
+    <button id="refillBtn" class="refill-btn">🎁 Free Coins</button>
+
     <button id="muteBtn" class="mute-btn">🔊</button>
+
+    <div id="bigWinBanner" class="big-win-banner"></div>
 
     <div id="statusMsg" class="status-msg"></div>
 

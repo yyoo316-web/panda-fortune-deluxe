@@ -1,7 +1,10 @@
 // Panda Fortune Deluxe — sound engine (Web Audio API, no external files)
+// v5.1: added ambient BGM loop + tiered win fanfare
 const SoundFX = (() => {
   let ctx = null;
   let muted = false;
+  let bgmTimer = null;
+  let bgmOn = false;
 
   function ensureCtx() {
     if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -45,21 +48,35 @@ const SoundFX = (() => {
     src.start(t0);
   }
 
+  const BGM_SCALE = [261.6, 293.7, 329.6, 392.0, 440.0, 523.3];
+  function bgmStep() {
+    if (!bgmOn) return;
+    if (!muted) {
+      const note = BGM_SCALE[Math.floor(Math.random() * BGM_SCALE.length)];
+      tone(note / 2, 2.2, "sine", 0.025, 0);
+      if (Math.random() < 0.4) tone(note * 2, 0.9, "triangle", 0.02, 0.3);
+    }
+    bgmTimer = setTimeout(bgmStep, 1600 + Math.random() * 800);
+  }
+
   return {
     spinStart() {
-      // rising whoosh
       tone(180, 0.35, "sawtooth", 0.06, 0, 520);
       noise(0.3, 0.05);
     },
     reelStop(i) {
-      // mechanical thunk, slightly higher pitch per reel
       tone(140 + i * 25, 0.12, "square", 0.12);
       noise(0.06, 0.1);
     },
-    win(big) {
-      // little fanfare arpeggio; bigger win = longer
-      const notes = big ? [523, 659, 784, 1047, 1319] : [523, 659, 784];
-      notes.forEach((f, i) => tone(f, 0.18, "triangle", 0.14, i * 0.09));
+    win(tier) {
+      const sets = [
+        [523, 659, 784],
+        [523, 659, 784, 1047],
+        [392, 523, 659, 784, 1047, 1319],
+        [330, 392, 523, 659, 784, 1047, 1319, 1568],
+      ];
+      const notes = sets[Math.min(tier, sets.length - 1)];
+      notes.forEach((f, i) => tone(f, 0.2, "triangle", 0.15, i * 0.085));
     },
     lose() {
       tone(220, 0.15, "sine", 0.05, 0, 180);
@@ -67,7 +84,21 @@ const SoundFX = (() => {
     click() {
       tone(700, 0.05, "square", 0.06);
     },
-    toggleMute() { muted = !muted; return muted; },
+    toggleMute() {
+      muted = !muted;
+      return muted;
+    },
     isMuted() { return muted; },
+    startBgm() {
+      if (bgmOn) return;
+      bgmOn = true;
+      ensureCtx();
+      clearTimeout(bgmTimer);
+      bgmStep();
+    },
+    stopBgm() {
+      bgmOn = false;
+      clearTimeout(bgmTimer);
+    },
   };
 })();
