@@ -27,7 +27,7 @@ const PAYLINES = [
 
 const ROW_COUNT = 3;
 const REEL_COUNT = 5;
-const CELL_HEIGHT = 100;
+const CELL_HEIGHT = 112;
 const SPIN_STRIP_LEN = 24;
 const REEL_STOP_STAGGER = 200;
 const SPIN_DURATION = 850;

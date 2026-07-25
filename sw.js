@@ -1,7 +1,7 @@
-// Panda Fortune Deluxe — service worker (v5.3.3)
+// Panda Fortune Deluxe — service worker (v5.3.6)
 // Cache-first strategy for the app shell + art assets so the game works offline
 // once loaded.
-const CACHE_NAME = "pfd-v5-3-3";
+const CACHE_NAME = "pfd-v5-3-6";
 const ASSETS = [
   "./",
   "./index.html",
