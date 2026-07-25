@@ -6,7 +6,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 50% 20%, #1c3d2e 0%, #0a1810 70%, #050c08 100%);
+  background:
+    linear-gradient(180deg, rgba(4, 10, 8, 0.55) 0%, rgba(4, 10, 8, 0.72) 60%, rgba(2, 6, 5, 0.85) 100%),
+    url("assets/ui/background.webp") center / cover no-repeat fixed;
   font-family: "Segoe UI", "Malgun Gothic", sans-serif;
   color: #fff8e7;
 }
@@ -28,11 +30,15 @@ body {
 
 .reels-frame {
   position: relative;
-  background: linear-gradient(180deg, #7a1f1f 0%, #4a0f0f 100%);
-  border: 6px solid #ffcf5c;
-  border-radius: 18px;
-  padding: 10px;
-  box-shadow: 0 0 0 4px #2a0a0a inset, 0 12px 30px rgba(0,0,0,0.5);
+  background: transparent;
+  border-style: solid;
+  border-width: clamp(40px, 10.5vw, 62px) clamp(18px, 4.6vw, 30px) clamp(24px, 5.6vw, 38px);
+  border-image-source: url("assets/ui/frame-alpha.webp");
+  border-image-slice: 217 145 113 143;
+  border-image-repeat: stretch;
+  border-radius: 0;
+  padding: 4px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
 }
 
 .reels {
